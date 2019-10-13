@@ -1,26 +1,15 @@
 import React from "react";
-class FilterLink extends React.Component {
-  render() {
-    const { filter, children, currentFilterState, setFilter } = this.props;
-    if (filter === currentFilterState) {
-      return <span>{children}</span>;
-    }
-    return (
-      <div
-        style={{
-          width: "auto",
-          height: "auto",
-          border: "1px solid blue",
-          display: "inline-block"
-        }}
-        onClick={e => {
-          e.preventDefault();
-          setFilter(filter);
-        }}
-      >
-        {children}
-      </div>
-    );
-  }
-}
+import { NavLink } from "react-router-dom";
+const FilterLink = ({ filter, children }) => (
+  // appends either 'active', 'completed', or an empty string to url
+  <NavLink
+    to={filter === "all" ? "/" : filter}
+    activeStyle={{
+      textDecoration: "none",
+      color: "black"
+    }}
+  >
+    {children}
+  </NavLink>
+);
 export default FilterLink;
