@@ -2,21 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import FilterLink from "./FilterLink";
 class ToDoApp extends React.Component {
-  state = {
-    todoText: ""
-  };
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      props: { addTodo, incID, id },
-      state: { todoText }
-    } = this;
-    addTodo(todoText, id);
+    const data = new FormData(e.target);
+    const { addTodo, incID, id } = this.props;
+    addTodo(data.get("todoText"), id);
     incID();
-    this.setState({ todoText: "" });
+    // clears the form
+    this.todoTextRef.value = "";
   };
   getVisibleTodos = (todos, filter) => {
     switch (filter) {
@@ -32,17 +25,22 @@ class ToDoApp extends React.Component {
   };
   render() {
     const {
-      handleChange,
       handleSubmit,
-      state: { todoText },
       props: { todos, filter, onTodoClick, setFilter }
     } = this;
     const visibleTodos = this.getVisibleTodos(todos, filter);
     return (
       <div>
         <form onSubmit={handleSubmit}>
-          <input onChange={handleChange} name="todoText" value={todoText} />
-          <button type="submit">Add Todo</button>
+          <label htmlFor="todoText"></label>
+          <input
+            type="text"
+            name="todoText"
+            id="todoText"
+            required
+            ref={input => (this.todoTextRef = input)}
+          />
+          <button>Add Todo</button>
         </form>
         <ul>
           {visibleTodos.map(t => (

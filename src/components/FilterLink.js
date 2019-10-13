@@ -6,15 +6,20 @@ class FilterLink extends React.Component {
       return <span>{children}</span>;
     }
     return (
-      <a
-        href="#"
+      <div
+        style={{
+          width: "auto",
+          height: "auto",
+          border: "1px solid blue",
+          display: "inline-block"
+        }}
         onClick={e => {
           e.preventDefault();
           setFilter(filter);
         }}
       >
         {children}
-      </a>
+      </div>
     );
   }
 }
